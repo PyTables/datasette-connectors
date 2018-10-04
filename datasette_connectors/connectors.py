@@ -2,7 +2,7 @@ import pkg_resources
 
 db_connectors = {}
 
-def load_connectors():
+def load():
     for entry_point in pkg_resources.iter_entry_points('datasette.connectors'):
         db_connectors[entry_point.name] = entry_point.load()
 
