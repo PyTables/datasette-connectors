@@ -25,6 +25,6 @@ setup(
     install_requires=['datasette==0.25'],
     entry_points='''
         [console_scripts]
-        datasette=datasette_connectors:cli
+        datasette=datasette_connectors.cli:cli
     '''
 )
