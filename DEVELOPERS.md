@@ -62,4 +62,4 @@ you need to return an object that allows to do things like:
     [c for c in row] == ['Susan']
     json.dumps(row)
 
-For example, you can extend the `list` object to get it, but as long as you implement a similar interface, you can develop your own implementation too.
+Datasette-Connectors provides you a Row class that extends `list` object to get it, but as long as you implement a similar interface, you can develop your own implementation too.
