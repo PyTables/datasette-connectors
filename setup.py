@@ -23,6 +23,7 @@ setup(
     license='Apache License, Version 2.0',
     packages=['datasette_connectors'],
     install_requires=['datasette==0.25'],
+    tests_require=['pytest', 'aiohttp'],
     entry_points='''
         [console_scripts]
         datasette=datasette_connectors.cli:cli
