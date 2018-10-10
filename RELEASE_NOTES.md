@@ -1,7 +1,12 @@
 # Release notes for datasette-connectors
 
 
-## Initial version 1.0
+## Changes from 1.0.0 to 1.0.1
+
+  #XXX version-specific blurb XXX#
+
+
+## Initial version 1.0.0
 
 * Compatible with Datasette 0.25
 
