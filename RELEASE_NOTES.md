@@ -1,7 +1,7 @@
 # Release notes for datasette-connectors
 
 
-## Initial version 0.25
+## Initial version 1.0
 
 * Compatible with Datasette 0.25
 
