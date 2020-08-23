@@ -1,7 +1,32 @@
 from datasette_connectors.row import Row
+from datasette_connectors.connectors import Connector
 
 
-_connector_type = 'dummy'
+class DummyConnector(Connector):
+    _connector_type = 'dummy'
+
+    @staticmethod
+    def table_names(path):
+        return ['table1', 'table2']
+
+    @staticmethod
+    def table_columns(path, table):
+        return ['c1', 'c2', 'c3']
+
+    @staticmethod
+    def get_all_foreign_keys(path):
+        return {
+            'table1': {'incoming': [], 'outgoing': []},
+            'table2': {'incoming': [], 'outgoing': []},
+        }
+
+    @staticmethod
+    def table_counts(path, *args, **kwargs):
+        return {
+            'table1': 2,
+            'table2': 2,
+        }
+
 
 def inspect(path):
     tables = {}

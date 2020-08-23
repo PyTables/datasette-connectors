@@ -1,12 +1,14 @@
 from datasette_connectors import monkey; monkey.patch_datasette()
-from datasette_connectors import connectors
-from . import dummy
-connectors.db_connectors['dummy'] = dummy
+from datasette_connectors.connectors import ConnectorList
+from .dummy import DummyConnector
+ConnectorList.add_connector('dummy', DummyConnector)
 
 from datasette.app import Datasette
+from datasette.utils.testing import TestClient
 import os
 import pytest
 import tempfile
+
 
 @pytest.fixture(scope='session')
 def app_client(max_returned_rows=None):
@@ -20,7 +22,7 @@ def app_client(max_returned_rows=None):
                 'max_returned_rows': max_returned_rows or 1000,
             }
         )
-        client = ds.app().test_client
+        client = TestClient(ds.app())
         client.ds = ds
         yield client
 

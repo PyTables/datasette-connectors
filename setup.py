@@ -22,8 +22,12 @@ setup(
     url='https://github.com/pytables/datasette-connectors',
     license='Apache License, Version 2.0',
     packages=['datasette_connectors'],
-    install_requires=['datasette==0.46'],
-    tests_require=['pytest', 'aiohttp'],
+    install_requires=['datasette==0.48'],
+    tests_require=[
+        'pytest',
+        'aiohttp',
+        'asgiref',
+    ],
     entry_points='''
         [console_scripts]
         datasette=datasette_connectors.cli:cli
