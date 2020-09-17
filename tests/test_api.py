@@ -39,93 +39,75 @@ def test_custom_sql(app_client):
     assert not data['truncated']
 
 def test_invalid_custom_sql(app_client):
-    response = app_client.get(
-        '/dummy_tables.json?sql=.schema',
-        gather_request=False
-    )
+    response = app_client.get('/dummy_tables.json?sql=.schema')
     assert response.status == 400
     assert response.json['ok'] is False
     assert 'Statement must be a SELECT' == response.json['error']
 
 def test_table_json(app_client):
-    response = app_client.get(
-        '/dummy_tables/table2.json?_shape=objects',
-        gather_request=False
-    )
+    response = app_client.get('/dummy_tables/table2.json?_shape=objects')
     assert response.status == 200
     data = response.json
-    assert data['query']['sql'] == 'select rowid, * from table2 order by rowid limit 51'
-    assert data['rows'] == [{
-        'rowid': 1,
-        'c1': 100,
-        'c2': 120,
-        'c3': 130
-    }, {
-        'rowid': 2,
-        'c1': 200,
-        'c2': 220,
-        'c3': 230
-    }]
+    assert data['query']['sql'] == 'select c1, c2, c3 from table2 limit 51'
+    assert data['rows'] == [
+        {
+            'c1': 100,
+            'c2': 120,
+            'c3': 130,
+        },
+        {
+            'c1': 200,
+            'c2': 220,
+            'c3': 230,
+        }]
 
 def test_table_not_exists_json(app_client):
     assert {
         'ok': False,
-        'error': 'Table not found: blah',
-        'status': 404,
-        'title': None,
-    } == app_client.get(
-        '/dummy_tables/blah.json', gather_request=False
-    ).json
+        'title': 'Invalid SQL',
+        'error': 'no such table: blah',
+        'status': 400,
+    } == app_client.get('/dummy_tables/blah.json').json
 
 def test_table_shape_arrays(app_client):
-    response = app_client.get(
-        '/dummy_tables/table2.json?_shape=arrays',
-        gather_request=False
-    )
+    response = app_client.get('/dummy_tables/table2.json?_shape=arrays')
     assert [
-        [1, 100, 120, 130],
-        [2, 200, 220, 230],
+        [100, 120, 130],
+        [200, 220, 230],
     ] == response.json['rows']
 
 def test_table_shape_objects(app_client):
-    response = app_client.get(
-        '/dummy_tables/table2.json?_shape=objects',
-        gather_request=False
-    )
-    assert [{
-        'rowid': 1,
-        'c1': 100,
-        'c2': 120,
-        'c3': 130,
-    }, {
-        'rowid': 2,
-        'c1': 200,
-        'c2': 220,
-        'c3': 230,
-    }] == response.json['rows']
+    response = app_client.get('/dummy_tables/table2.json?_shape=objects')
+    assert [
+        {
+            'c1': 100,
+            'c2': 120,
+            'c3': 130,
+        },
+        {
+            'c1': 200,
+            'c2': 220,
+            'c3': 230,
+        },
+    ] == response.json['rows']
 
 def test_table_shape_array(app_client):
-    response = app_client.get(
-        '/dummy_tables/table2.json?_shape=array',
-        gather_request=False
-    )
-    assert [{
-        'rowid': 1,
-        'c1': 100,
-        'c2': 120,
-        'c3': 130,
-    }, {
-        'rowid': 2,
-        'c1': 200,
-        'c2': 220,
-        'c3': 230,
-    }] == response.json
+    response = app_client.get('/dummy_tables/table2.json?_shape=array')
+    assert [
+        {
+            'c1': 100,
+            'c2': 120,
+            'c3': 130,
+        },
+        {
+            'c1': 200,
+            'c2': 220,
+            'c3': 230,
+        },
+    ] == response.json
 
 def test_table_shape_invalid(app_client):
-    response = app_client.get(
-        '/dummy_tables/table2.json?_shape=invalid',
-        gather_request=False
-    )
+    response = app_client.get('/dummy_tables/table2.json?_shape=invalid')
     assert {
         'ok': False,
         'error': 'Invalid _shape: invalid',

@@ -1,7 +1,7 @@
 from datasette_connectors import monkey; monkey.patch_datasette()
 from datasette_connectors.connectors import ConnectorList
 from .dummy import DummyConnector
-ConnectorList.add_connector('dummy', DummyConnector)
+ConnectorList.add_connector('dummy', DummyConnector())
 
 from datasette.app import Datasette
 from datasette.utils.testing import TestClient
