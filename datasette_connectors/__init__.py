@@ -1,1 +1,2 @@
-from .connectors import Connector, OperationalError
+from .connectors import Connector
+from .cursor import OperationalError
