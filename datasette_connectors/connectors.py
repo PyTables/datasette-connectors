@@ -32,8 +32,12 @@ class Connector:
     connector_type = None
     connection_class = Connection
 
-    def connect(self, path):
-        return self.connection_class(path, self)
+    @classmethod
+    def connect(cls, path):
+        return cls.connection_class(path, cls)
+
+    def __init__(self, conn):
+        self.conn = conn
 
     def table_names(self):
         """

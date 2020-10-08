@@ -14,7 +14,7 @@ class Cursor:
 
     def __init__(self, conn):
         self.conn = conn
-        self.connector = conn.connector
+        self.connector = conn.connector_class(conn)
         self.rows = []
         self.description = ()
 

@@ -2,9 +2,9 @@ from .cursor import Cursor
 
 
 class Connection:
-    def __init__(self, path, connector):
+    def __init__(self, path, connector_class):
         self.path = path
-        self.connector = connector
+        self.connector_class = connector_class
 
     def execute(self, *args, **kwargs):
         cursor = Cursor(self)
