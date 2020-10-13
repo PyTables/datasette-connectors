@@ -54,7 +54,7 @@ class Cursor:
             match = re.search(r'select count\(\*\) from (.*)', sql)
             results = [{'count(*)': self.connector.table_count(match.group(1))}]
         elif sql.startswith("PRAGMA table_info("):
-            match = re.search(r'PRAGMA table_info\((.*)\)', sql)
+            match = re.search(r'PRAGMA table_info\(\[?\"?([\d\w\/]*)\"?\]?\)', sql)
             results = self.connector.table_info(match.group(1))
         elif sql.startswith("select name from sqlite_master where rootpage = 0 and ( sql like \'%VIRTUAL TABLE%USING FTS%content="):
             match = re.search(r'select name from sqlite_master where rootpage = 0 and \( sql like \'%VIRTUAL TABLE%USING FTS%content="(.*)"', sql)
