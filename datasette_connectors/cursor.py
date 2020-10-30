@@ -67,7 +67,8 @@ class Cursor:
             if self.connector.table_exists(params[0]):
                 results = [{'1': '1'}]
         elif sql == "select sql from sqlite_master where name = :n and type=:t":
-            results = [{'sql': self.connector.table_definition(params['t'], params['n'])}]
+            if self.connector.table_exists(params['n']):
+                results = [{'sql': self.connector.table_definition(params['t'], params['n'])}]
         elif sql == "select sql from sqlite_master where tbl_name = :n and type='index' and sql is not null":
             results = [{'sql': sql} for sql in self.connector.indices_definition(params['n'])]
         else:

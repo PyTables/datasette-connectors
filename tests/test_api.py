@@ -64,9 +64,9 @@ def test_table_json(app_client):
 def test_table_not_exists_json(app_client):
     assert {
         'ok': False,
-        'title': 'Invalid SQL',
-        'error': 'no such table: blah',
-        'status': 400,
+        'error': 'Table not found: blah',
+        'status': 404,
+        'title': None,
     } == app_client.get('/dummy_tables/blah.json').json
 
 def test_table_shape_arrays(app_client):
