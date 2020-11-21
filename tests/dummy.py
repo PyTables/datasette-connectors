@@ -22,19 +22,28 @@ class DummyConnector(dc.Connector):
     def table_info(self, table_name):
         return [
             {
-                'idx': 0,
+                'cid': 0,
                 'name': 'c1',
-                'primary_key': False,
+                'type': 'integer',
+                'notnull': False,
+                'default_value': None,
+                'is_pk': False,
             },
             {
-                'idx': 0,
+                'cid': 1,
                 'name': 'c2',
-                'primary_key': False,
+                'type': 'integer',
+                'notnull': False,
+                'default_value': None,
+                'is_pk': False,
             },
             {
-                'idx': 0,
+                'cid': 2,
                 'name': 'c3',
-                'primary_key': False,
+                'type': 'integer',
+                'notnull': False,
+                'default_value': None,
+                'is_pk': False,
             },
         ]
 
