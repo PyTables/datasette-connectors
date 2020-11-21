@@ -1,9 +1,11 @@
 # Release notes for datasette-connectors
 
 
-## Changes from 1.0.0 to 1.0.1
+## Changes from 1.0.0 to 2.0.0
 
-  #XXX version-specific blurb XXX#
+* Compatible with Datasette 0.51.1
+
+* A lot of changes in API adopting a more pythonic style.
 
 
 ## Initial version 1.0.0
