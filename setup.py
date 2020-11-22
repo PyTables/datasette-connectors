@@ -19,6 +19,7 @@ setup(
     long_description=get_long_description(),
     long_description_content_type='text/markdown',
     author='Javier Sancho',
+    author_email='jsf@jsancho.org',
     url='https://github.com/pytables/datasette-connectors',
     license='Apache License, Version 2.0',
     packages=['datasette_connectors'],
