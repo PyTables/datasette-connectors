@@ -1,6 +1,11 @@
 # Release notes for datasette-connectors
 
 
+## Changes from 2.0.0 to 2.0.1
+
+  #XXX version-specific blurb XXX#
+
+
 ## Changes from 1.0.0 to 2.0.0
 
 * Compatible with Datasette 0.51.1
