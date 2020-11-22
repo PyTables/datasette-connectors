@@ -19,11 +19,18 @@ setup(
     long_description=get_long_description(),
     long_description_content_type='text/markdown',
     author='Javier Sancho',
+    author_email='jsf@jsancho.org',
     url='https://github.com/pytables/datasette-connectors',
     license='Apache License, Version 2.0',
     packages=['datasette_connectors'],
-    install_requires=['datasette==0.25'],
-    tests_require=['pytest', 'aiohttp'],
+    install_requires=[
+        'datasette==0.51.1',
+    ],
+    tests_require=[
+        'pytest',
+        'aiohttp',
+        'asgiref',
+    ],
     entry_points='''
         [console_scripts]
         datasette=datasette_connectors.cli:cli

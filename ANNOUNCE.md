@@ -1,8 +1,8 @@
-# Announcing datasette-connectors 1.0.0
+# Announcing datasette-connectors 2.0.0
 
 ## What's new
 
-This is the first release of datasette-connectors, derived from the [Datasette](https://github.com/simonw/datasette) fork for supporting [Datasette-Pytables](https://github.com/PyTables/datasette-pytables).
+This is a mayor version of datasette-connectors. There are two main features added. First, [Datasette 0.51.1](https://github.com/simonw/datasette) is used. Second, our API has been improved to a more pythonic style. Details can be found at [dummy example](https://github.com/PyTables/datasette-connectors/blob/master/tests/dummy.py).
 
 ## What it is
 
