@@ -3,7 +3,7 @@
 
 ## Changes from 2.0.0 to 2.0.1
 
-  #XXX version-specific blurb XXX#
+* Fix missed import
 
 
 ## Changes from 1.0.0 to 2.0.0

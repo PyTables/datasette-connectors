@@ -1,4 +1,4 @@
-# Announcing datasette-connectors 2.0.0
+# Announcing datasette-connectors 2.0.1
 
 ## What's new
 
