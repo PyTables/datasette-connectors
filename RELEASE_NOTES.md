@@ -1,6 +1,11 @@
 # Release notes for datasette-connectors
 
 
+## Changes from 2.0.1 to 2.0.2-dev
+
+  #XXX version-specific blurb XXX#
+
+
 ## Changes from 2.0.0 to 2.0.1
 
 * Fix missed import
