@@ -17,7 +17,7 @@ This will start a web server on port 8001; then you can access to your data visi
 Or you can use Datasette in your own Python programs:
 
     from datasette_connectors import monkey; monkey.patch_datasette()
-    from datasette_connectors import connectors; connectors.load()
+    from datasette_connectors.connectors import ConnectorList; ConnectorList.load()
 
 For that, you need to patch the original Datasette and load the external connectors.
 
