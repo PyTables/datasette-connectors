@@ -1,3 +1,4 @@
+import pkg_resources
 from .connection import Connection
 
 
