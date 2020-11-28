@@ -2,64 +2,60 @@
 
 With Datasette-Connectors you can use [Datasette](https://github.com/simonw/datasette) for publishing data in your own format, not only SQLite, to the Internet with a JSON API. For this, you have to make connectors using the interface that is described here.
 
+## Starting from scratch
+
+For making a Datasette connector for your favorite database files, you need to inherit from `datasette_connectors.Connector`. Then, you can specify your connector type in the class property `connector_type` and, very important, you should set `connection_class` property with a class that inherits from `datasette_connectors.Connection` and implements a method for opening your database files.
+
+For example, in [Datasette-PyTables](https://github.com/PyTables/datasette-pytables) the next class definition is used:
+
+    import tables
+    import datasette_connectors as dc
+
+    class PyTablesConnection(dc.Connection):
+        def __init__(self, path, connector):
+            super().__init__(path, connector)
+            self.h5file = tables.open_file(path)
+
+    class PyTablesConnector(dc.Connector):
+        connector_type = 'pytables'
+        connection_class = PyTablesConnection
+
 ## Tables inspection
 
-First of all, you need to implement a special method called `inspect` that receives the path of the file as an argument and returns a tuple formed by a dictionary with tables info, a list with views name and a string identifying the connector. Each entry in the dictionary for tables info has the next structure:
+Datasette needs some data about your database so you have to provide it overwriting some methods in your custom connector. For that, the connector stores and instance of the class set in `connection_class` in the property `conn`, so you can use `self.conn` to access to your database in order to retrieve that data.
 
-    tables['table_name'] = {
-        'name': 'table_name',
-        'columns': ['c1', 'c2'],
-        'primary_keys': [],
-        'count': 100,
-        'label_column': None,
-        'hidden': False,
-        'fts_table': None,
-        'foreign_keys': {'incoming': [], 'outgoing': []}
+The methods that must be overwritten are:
 
-This structure is used in [Datasette-PyTables](https://github.com/PyTables/datasette-pytables). In your case, you may need additional entries like primary keys or foreign keys.
+* **table_names(self)**: a list of table names
+* **hidden_table_names(self)**: a list of hidden table names
+* **detect_spatialite(self)**: a boolean indicating if geometry_columns exists
+* **view_names(self)**: a list of view names
+* **table_count(self, table_name)**: an integer with the rows count of the table
+* **table_info(self, table_name)**: a list of dictionaries with columns description
+* **foreign_keys(self, table_name)**: a list of dictionaries with foreign keys description
+* **table_exists(self, table_name)**: a boolean indicating if table exists in the database
+* **table_definition(self, table_type, table_name)**: a string with a 'CREATE TABLE' sql definition
+* **indices_definition(self, table_name)**: a list of strings with 'CREATE INDEX' sql definitions
 
 ## Returning results
 
-Datasette uses SQL for specifying the queries, so your connector has to accept SQL and execute it. The next class and methods are needed:
+Datasette uses SQL for specifying the queries, so your connector has to accept SQL and execute it. Overwriting `execute` method you can receive the query in SQL format and return some results.
 
-    class Connection:
-        def __init__(self, path):
-            ...
-
-        def execute(self, sql, params=None, truncate=False, page_size=None, max_returned_rows=None):
-            ...
-
-The `Connection.execute()` method receives:
+The `Connector.execute()` method receives:
 
 * **sql**: the query
 * **params**: a dictionary with the params used in the query
 * **truncate**: a boolean saying if the returned data can be separated in pages or not
+* **custom_time_limit**: an integer with a time limit for the execution of the query in seconds
 * **page_size**: the number of rows a page can contain
-* **max_returned_rows**: the maximum number of rows Datasette expects
+* **log_sql_errors**: a boolean saying if errors has to be logged
 
 Probably, you'll need to parse the SQL query if your data container has its own style for queries, but other databases could work with the SQL queries without requiring any parsing.
 
 Note: Sometimes, Datasette make queries to `sqlite_master`; you need to keep it in mind.
 
-The `Connection.execute()` method has to return a tuple with:
+The `Connector.execute()` method has to return a tuple with:
 
-* a list of rows (Datasette expects something similar to SQLite rows)
+* a list of rows; each row is a dictionary with the field name as key and the field value as value
 * a boolean saying if the data is truncated, i.e., if we return all the rows or there are more rows than the maximum indicated in max_returned_rows
 * a tuple with the description of the columns in the form `(('c1',), ('c2',), ...)`
-
-## Rows format
-
-Datasette receives the results from the queries with SQLite row instances, so you need to return your rows in a similar way.
-
-For example, if you have the next query:
-
-    SELECT name FROM persons
-
-you need to return an object that allows to do things like:
-
-    row[0] == 'Susan'
-    row['name'] == 'Susan'
-    [c for c in row] == ['Susan']
-    json.dumps(row)
-
-Datasette-Connectors provides you a Row class that extends `list` object to get it, but as long as you implement a similar interface, you can develop your own implementation too.
