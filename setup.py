@@ -24,7 +24,7 @@ setup(
     license='Apache License, Version 2.0',
     packages=['datasette_connectors'],
     install_requires=[
-        'datasette==0.51.1',
+        'datasette==0.56.1',
     ],
     tests_require=[
         'pytest',
